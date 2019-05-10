@@ -8,7 +8,8 @@
         "type": "object",
         "required": [
           "zookeeper", "znode",
-          "kafka", "target_topic", "transactional_id", "enable_idempotence"
+          "kafka", "target_topic", "transactional_id", "enable_idempotence",
+          "max_transaction_retries"
         ],
         "properties": {
           "zookeeper": { "type": "string" },
@@ -16,7 +17,8 @@
           "kafka": { "type": "string" },
           "target_topic": { "type": "string" },
           "transactional_id": { "oneOf": [{ "type": "string" }, { "type": "null" }] },
-          "enable_idempotence": { "type": "boolean" }
+          "enable_idempotence": { "type": "boolean" },
+          "max_transaction_retries": { "type": "integer" }
         },
         "additionalProperties": false
       }

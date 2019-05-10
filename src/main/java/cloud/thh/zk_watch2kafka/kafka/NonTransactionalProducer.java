@@ -1,8 +1,10 @@
 package cloud.thh.zk_watch2kafka.kafka;
 
+import java.io.IOException;
 import java.util.Properties;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
@@ -17,9 +19,13 @@ public class NonTransactionalProducer extends Producer {
   }
 
   @Override
-  public void produce(String key, byte[] value) {
-    // TODO Auto-generated method stub
+  public void close() throws IOException {
+    kafka.close();
+  }
 
+  @Override
+  void produce(ProducerRecord<String, byte[]> record) {
+    // TODO Auto-generated method stub
   }
 
   private KafkaProducer<String, byte[]> buildKafkaProducer() {

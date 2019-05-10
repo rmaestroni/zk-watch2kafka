@@ -6,6 +6,7 @@ import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.ZooKeeper;
 
 import cloud.thh.zk_watch2kafka.config.WatchConfig;
+import cloud.thh.zk_watch2kafka.zookeeper.ZnodeWatcher;
 
 public class WatchHandler {
   private WatchConfig config;

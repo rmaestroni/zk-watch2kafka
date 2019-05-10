@@ -1,7 +1,9 @@
-package cloud.thh.zk_watch2kafka;
+package cloud.thh.zk_watch2kafka.zookeeper;
 
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
+
+import cloud.thh.zk_watch2kafka.WatchHandler;
 
 public class ZnodeWatcher implements Watcher {
   private WatchHandler handler;

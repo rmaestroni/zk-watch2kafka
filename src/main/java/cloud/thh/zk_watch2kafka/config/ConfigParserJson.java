@@ -37,6 +37,7 @@ public class ConfigParserJson {
         conf.targetTopic = jsonNode.path("target_topic").asText();
         conf.transactionalId = jsonNode.path("transactional_id").asText();
         conf.enableIdempotence = jsonNode.path("enable_idempotence").asBoolean();
+        conf.maxTransactionRetries = jsonNode.path("max_transaction_retries").asInt();
 
         return conf;
       })

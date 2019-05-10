@@ -36,5 +36,6 @@ public class ConfigParserJsonTest {
     assertEquals("zookeeper-watch-events", conf.targetTopic);
     assertEquals("some-transactional-id", conf.transactionalId);
     assertEquals(true, conf.enableIdempotence);
+    assertEquals(10, conf.maxTransactionRetries);
   }
 }

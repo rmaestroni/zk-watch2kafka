@@ -8,4 +8,5 @@ public class WatchConfig {
   public String targetTopic;
   public String transactionalId;
   public boolean enableIdempotence;
+  public int maxTransactionRetries;
 }
