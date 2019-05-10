@@ -4,7 +4,9 @@
       "zookeeper": "localhost:2181",
       "znode": "xyz",
       "kafka": "localhost:9092",
-      "target_topic": "zookeeper-watch-events"
+      "target_topic": "zookeeper-watch-events",
+      "transactional_id": "some-transactional-id",
+      "enable_idempotence": true
     }
   ]
 }

@@ -35,6 +35,8 @@ public class ConfigParserJson {
         conf.kafka = jsonNode.path("kafka").asText();
         conf.znode = jsonNode.path("znode").asText();
         conf.targetTopic = jsonNode.path("target_topic").asText();
+        conf.transactionalId = jsonNode.path("transactional_id").asText();
+        conf.enableIdempotence = jsonNode.path("enable_idempotence").asBoolean();
 
         return conf;
       })

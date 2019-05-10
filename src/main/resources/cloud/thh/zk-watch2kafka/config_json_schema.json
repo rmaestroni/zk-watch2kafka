@@ -6,12 +6,17 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["zookeeper", "znode", "kafka", "target_topic"],
+        "required": [
+          "zookeeper", "znode",
+          "kafka", "target_topic", "transactional_id", "enable_idempotence"
+        ],
         "properties": {
           "zookeeper": { "type": "string" },
           "znode": { "type": "string" },
           "kafka": { "type": "string" },
-          "target_topic": { "type": "string" }
+          "target_topic": { "type": "string" },
+          "transactional_id": { "oneOf": [{ "type": "string" }, { "type": "null" }] },
+          "enable_idempotence": { "type": "boolean" }
         },
         "additionalProperties": false
       }

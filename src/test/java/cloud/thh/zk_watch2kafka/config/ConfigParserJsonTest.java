@@ -28,9 +28,13 @@ public class ConfigParserJsonTest {
     assertEquals(1, confs.size());
 
     WatchConfig conf = confs.get(0);
+
     assertEquals("localhost:2181", conf.zookeeper);
     assertEquals("xyz", conf.znode);
+
     assertEquals("localhost:9092", conf.kafka);
     assertEquals("zookeeper-watch-events", conf.targetTopic);
+    assertEquals("some-transactional-id", conf.transactionalId);
+    assertEquals(true, conf.enableIdempotence);
   }
 }
