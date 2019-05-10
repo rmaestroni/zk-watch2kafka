@@ -22,6 +22,22 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.apache.zookeeper</groupId>
+      <artifactId>zookeeper</artifactId>
+      <version>3.4.14</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>com.github.java-json-tools</groupId>
+      <artifactId>json-schema-validator</artifactId>
+      <version>2.2.10</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.9.8</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -33,20 +49,6 @@
         <configuration>
           <release>11</release>  <!-- same as <java.version> -->
           <target>11</target>  <!-- same as <java.version> -->
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-          <archive>
-            <manifest>
-              <mainClass>cloud.thh.zk_watch2kafka.App</mainClass>
-            </manifest>
-          </archive>
         </configuration>
       </plugin>
     </plugins>

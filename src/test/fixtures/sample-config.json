@@ -1,0 +1,10 @@
+{
+  "watches": [
+    {
+      "zookeeper": "localhost:2181",
+      "znode": "xyz",
+      "kafka": "localhost:9092",
+      "target_topic": "zookeeper-watch-events"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "required": ["watches"],
+  "properties": {
+    "watches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["zookeeper", "znode", "kafka", "target_topic"],
+        "properties": {
+          "zookeeper": { "type": "string" },
+          "znode": { "type": "string" },
+          "kafka": { "type": "string" },
+          "target_topic": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
