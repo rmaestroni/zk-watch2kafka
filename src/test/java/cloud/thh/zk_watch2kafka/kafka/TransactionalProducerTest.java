@@ -42,7 +42,7 @@ public class TransactionalProducerTest {
 
     verify(kafkaProd, times(1)).initTransactions();
     verify(kafkaProd, times(2)).beginTransaction();
-    verify(kafkaProd, times(2)).send(any());
+    verify(kafkaProd, times(2)).send(any(), any());
     verify(kafkaProd, times(2)).commitTransaction();
   }
 
@@ -50,7 +50,7 @@ public class TransactionalProducerTest {
   public void produceWithUnrecoverableError() {
     @SuppressWarnings("unchecked")
     KafkaProducer<String, byte[]> kafkaProd = mock(KafkaProducer.class);
-    when(kafkaProd.send(any())).thenThrow(new AuthorizationException("foo"));
+    when(kafkaProd.send(any(), any())).thenThrow(new AuthorizationException("foo"));
 
     @SuppressWarnings("resource")
     Producer producer = new TransactionalProducer(null, kafkaProd);
@@ -73,7 +73,7 @@ public class TransactionalProducerTest {
 
     @SuppressWarnings("unchecked")
     KafkaProducer<String, byte[]> kafkaProd = mock(KafkaProducer.class);
-    when(kafkaProd.send(any())).thenThrow(new KafkaException("foo"));
+    when(kafkaProd.send(any(), any())).thenThrow(new KafkaException("foo"));
 
     @SuppressWarnings("resource")
     Producer producer = new TransactionalProducer(config, kafkaProd);
