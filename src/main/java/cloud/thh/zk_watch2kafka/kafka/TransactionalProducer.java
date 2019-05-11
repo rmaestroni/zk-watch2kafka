@@ -88,7 +88,7 @@ public class TransactionalProducer extends Producer {
     return new Callback() {
       @Override
       public void onCompletion(RecordMetadata metadata, Exception exception) {
-        if (!LOGGER.isDebugEnabled()) { return; }
+        if (!LOGGER.isDebugEnabled() || null != exception) { return; }
         String msg = String.format(
             "Written record key=%s ts=%d to partition %d, offset %d",
             record.key(),
