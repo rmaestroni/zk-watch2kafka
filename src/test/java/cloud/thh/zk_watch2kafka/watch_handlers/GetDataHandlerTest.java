@@ -1,14 +1,59 @@
+/*
+ *  Copyright (C) 2019 Roberto Maestroni
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package cloud.thh.zk_watch2kafka.watch_handlers;
 
-import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.ZooKeeper;
 import org.junit.Test;
 
-public class GetDataHandlerTest {
+import cloud.thh.zk_watch2kafka.config.WatchConfig;
+import cloud.thh.zk_watch2kafka.zookeeper.UnrecoverableZkException;
 
+public class GetDataHandlerTest {
   @Test
-  public void test() {
-    fail("Not yet implemented");
+  public void watch() throws Exception {
+    WatchConfig config = new WatchConfig();
+    config.znode = "some-znode";
+    ZooKeeper zk = mock(ZooKeeper.class);
+
+    @SuppressWarnings("resource")
+    GetDataHandler handler = new GetDataHandler(config, zk, null);
+    handler.watch();
+
+    verify(zk, times(1)).getData(eq("some-znode"), eq(true), any());
   }
 
+  @Test(expected=UnrecoverableZkException.class)
+  public void watchOnFailureWrapsException() throws Exception {
+    WatchConfig config = new WatchConfig();
+    config.znode = "some-znode";
+    ZooKeeper zk = mock(ZooKeeper.class);
+    when(zk.getData(eq("some-znode"), eq(true), any())).thenThrow(mock(KeeperException.class));
+
+    @SuppressWarnings("resource")
+    GetDataHandler handler = new GetDataHandler(config, zk, null);
+    handler.watch();
+  }
 }

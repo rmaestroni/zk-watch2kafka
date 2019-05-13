@@ -35,7 +35,7 @@ public abstract class WatchHandler implements Closeable {
   protected ZooKeeper zkClient;
   private Producer producer;
 
-  protected WatchHandler(WatchConfig config, ZooKeeper zkClient, Producer producer) {
+  WatchHandler(WatchConfig config, ZooKeeper zkClient, Producer producer) {
     this.config = config;
     this.zkClient = zkClient;
     this.producer = producer;
@@ -49,6 +49,18 @@ public abstract class WatchHandler implements Closeable {
         Producer.buildProducer(config));
     znodeWatcher.setHandler(handler);
     return handler;
+  }
+
+  static WatchHandler build(WatchConfig config,
+      ZooKeeper zkClient, Producer producer) {
+    switch(config.operation) {
+      case GET_CHILDREN:
+        return new GetChildrenHandler(config, zkClient, producer);
+      case GET_DATA:
+        return new GetDataHandler(config, zkClient, producer);
+      default:
+        throw new RuntimeException("Unrecognized operation");
+    }
   }
 
   @Override
@@ -75,18 +87,6 @@ public abstract class WatchHandler implements Closeable {
    * Kafka.
    */
   public abstract ZkEvent watch() throws UnrecoverableZkException;
-
-  private static WatchHandler build(WatchConfig config,
-      ZooKeeper zkClient, Producer producer) {
-    switch(config.operation) {
-      case GET_CHILDREN:
-        return new GetChildrenHandler(config, zkClient, producer);
-      case GET_DATA:
-        return new GetDataHandler(config, zkClient, producer);
-      default:
-        throw new RuntimeException("Unrecognized operation");
-    }
-  }
 
   private static ZooKeeper buildZkClient(
       WatchConfig config,
