@@ -24,29 +24,29 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.KafkaException;
-import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cloud.thh.zk_watch2kafka.config.WatchConfig;
+import cloud.thh.zk_watch2kafka.zookeeper.ZkEvent;
 
 class NonTransactionalProducer extends Producer {
   private static final Logger LOGGER = LoggerFactory.getLogger(NonTransactionalProducer.class);
 
-  private KafkaProducer<String, byte[]> producer;
+  private KafkaProducer<String, ZkEvent> producer;
 
   NonTransactionalProducer(WatchConfig config) {
     this(config, buildKafkaProducer(config));
   }
 
-  NonTransactionalProducer(WatchConfig config, KafkaProducer<String, byte[]> producer) {
+  NonTransactionalProducer(WatchConfig config, KafkaProducer<String, ZkEvent> producer) {
     super(config);
     this.producer = producer;
   }
 
   @Override
-  void produce(ProducerRecord<String, byte[]> record) throws UnrecoverableKafkaException {
+  void produce(ProducerRecord<String, ZkEvent> record) throws UnrecoverableKafkaException {
     try {
       logRecord(record);
       RecordMetadata metadata = producer.send(record).get();
@@ -63,7 +63,7 @@ class NonTransactionalProducer extends Producer {
     return producer;
   }
 
-  private void logRecordSucceeded(ProducerRecord<String, byte[]> record, RecordMetadata metadata) {
+  private void logRecordSucceeded(ProducerRecord<String, ZkEvent> record, RecordMetadata metadata) {
     if (!LOGGER.isDebugEnabled()) { return; }
     String msg = String.format(
         "Written record key=%s ts=%d to partition %d, offset %d",
@@ -74,7 +74,7 @@ class NonTransactionalProducer extends Producer {
     LOGGER.debug(msg);
   }
 
-  private void logRecord(ProducerRecord<String, byte[]> record) {
+  private void logRecord(ProducerRecord<String, ZkEvent> record) {
     if (!LOGGER.isInfoEnabled()) { return; }
     LOGGER.info(
         String.format(
@@ -84,7 +84,7 @@ class NonTransactionalProducer extends Producer {
             record.timestamp()));
   }
 
-  private static KafkaProducer<String, byte[]> buildKafkaProducer(WatchConfig config) {
+  private static KafkaProducer<String, ZkEvent> buildKafkaProducer(WatchConfig config) {
     Properties props = new Properties();
     props.put("bootstrap.servers", config.kafka);
     if (config.enableIdempotence) {
@@ -95,7 +95,7 @@ class NonTransactionalProducer extends Producer {
       props.put("acks", config.acks);
     }
 
-    return new KafkaProducer<String, byte[]>(
-        props, new StringSerializer(), new ByteArraySerializer());
+    return new KafkaProducer<String, ZkEvent>(
+        props, new StringSerializer(), new ZkEventSerializer());
   }
 }

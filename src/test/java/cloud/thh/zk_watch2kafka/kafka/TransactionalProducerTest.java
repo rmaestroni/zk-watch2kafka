@@ -33,12 +33,13 @@ import org.apache.kafka.common.errors.AuthorizationException;
 import org.junit.Test;
 
 import cloud.thh.zk_watch2kafka.config.WatchConfig;
+import cloud.thh.zk_watch2kafka.zookeeper.ZkEvent;
 
 public class TransactionalProducerTest {
   @Test
   public void closeClosesTheProducer() throws IOException {
     @SuppressWarnings("unchecked")
-    KafkaProducer<String, byte[]> kafkaProd = mock(KafkaProducer.class);
+    KafkaProducer<String, ZkEvent> kafkaProd = mock(KafkaProducer.class);
 
     Producer producer = new TransactionalProducer(null, kafkaProd);
     producer.close();
@@ -49,7 +50,7 @@ public class TransactionalProducerTest {
   @Test
   public void produceSuccessfully() throws UnrecoverableKafkaException {
     @SuppressWarnings("unchecked")
-    KafkaProducer<String, byte[]> kafkaProd = mock(KafkaProducer.class);
+    KafkaProducer<String, ZkEvent> kafkaProd = mock(KafkaProducer.class);
 
     @SuppressWarnings("resource")
     Producer producer = new TransactionalProducer(null, kafkaProd);
@@ -66,7 +67,7 @@ public class TransactionalProducerTest {
   @Test
   public void produceWithUnrecoverableError() {
     @SuppressWarnings("unchecked")
-    KafkaProducer<String, byte[]> kafkaProd = mock(KafkaProducer.class);
+    KafkaProducer<String, ZkEvent> kafkaProd = mock(KafkaProducer.class);
     when(kafkaProd.send(any(), any())).thenThrow(new AuthorizationException("foo"));
 
     @SuppressWarnings("resource")
@@ -89,7 +90,7 @@ public class TransactionalProducerTest {
     config.maxTransactionRetries = 10;
 
     @SuppressWarnings("unchecked")
-    KafkaProducer<String, byte[]> kafkaProd = mock(KafkaProducer.class);
+    KafkaProducer<String, ZkEvent> kafkaProd = mock(KafkaProducer.class);
     when(kafkaProd.send(any(), any())).thenThrow(new KafkaException("foo"));
 
     @SuppressWarnings("resource")

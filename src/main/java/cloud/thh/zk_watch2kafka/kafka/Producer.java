@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cloud.thh.zk_watch2kafka.config.WatchConfig;
+import cloud.thh.zk_watch2kafka.zookeeper.ZkEvent;
 
 public abstract class Producer implements Closeable {
   private static final Logger LOGGER = LoggerFactory.getLogger(Producer.class);
@@ -55,15 +56,18 @@ public abstract class Producer implements Closeable {
     }
   }
 
-  public void produce(String key, byte[] value) throws UnrecoverableKafkaException {
+  /**
+   * Sends the provided event to Kafka.
+   */
+  public void produce(String key, ZkEvent value) throws UnrecoverableKafkaException {
     produce(buildRecord(key, value));
   }
 
-  ProducerRecord<String, byte[]> buildRecord(String key, byte[] value) {
+  ProducerRecord<String, ZkEvent> buildRecord(String key, ZkEvent value) {
     return new ProducerRecord<>(config.targetTopic, key, value);
   }
 
-  abstract void produce(ProducerRecord<String, byte[]> record) throws UnrecoverableKafkaException;
+  abstract void produce(ProducerRecord<String, ZkEvent> record) throws UnrecoverableKafkaException;
 
   protected WatchConfig getConfig() {
     return config;

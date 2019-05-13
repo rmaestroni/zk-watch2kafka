@@ -28,30 +28,30 @@ import org.apache.kafka.common.errors.AuthorizationException;
 import org.apache.kafka.common.errors.OutOfOrderSequenceException;
 import org.apache.kafka.common.errors.ProducerFencedException;
 import org.apache.kafka.common.errors.UnsupportedVersionException;
-import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cloud.thh.zk_watch2kafka.config.WatchConfig;
+import cloud.thh.zk_watch2kafka.zookeeper.ZkEvent;
 
 class TransactionalProducer extends Producer {
   private static final Logger LOGGER = LoggerFactory.getLogger(TransactionalProducer.class);
 
-  private KafkaProducer<String, byte[]> producer;
+  private KafkaProducer<String, ZkEvent> producer;
   private boolean initDone = false;
 
   TransactionalProducer(WatchConfig config) {
     this(config, buildKafkaProducer(config));
   }
 
-  TransactionalProducer(WatchConfig config, KafkaProducer<String, byte[]> kafka) {
+  TransactionalProducer(WatchConfig config, KafkaProducer<String, ZkEvent> kafka) {
     super(config);
     this.producer = kafka;
   }
 
   @Override
-  void produce(ProducerRecord<String, byte[]> record) throws UnrecoverableKafkaException {
+  void produce(ProducerRecord<String, ZkEvent> record) throws UnrecoverableKafkaException {
     for (int retryCnt = 0;;) {
       try {
         if (!initDone) {
@@ -95,7 +95,7 @@ class TransactionalProducer extends Producer {
     return producer;
   }
 
-  private Callback buildLoggingCallback(ProducerRecord<String, byte[]> record) {
+  private Callback buildLoggingCallback(ProducerRecord<String, ZkEvent> record) {
     return new Callback() {
       @Override
       public void onCompletion(RecordMetadata metadata, Exception exception) {
@@ -111,7 +111,7 @@ class TransactionalProducer extends Producer {
     };
   }
 
-  private void logRecord(ProducerRecord<String, byte[]> record) {
+  private void logRecord(ProducerRecord<String, ZkEvent> record) {
     if (!LOGGER.isInfoEnabled()) { return; }
     LOGGER.info(
         String.format(
@@ -121,12 +121,12 @@ class TransactionalProducer extends Producer {
             record.timestamp()));
   }
 
-  private static KafkaProducer<String, byte[]> buildKafkaProducer(WatchConfig config) {
+  private static KafkaProducer<String, ZkEvent> buildKafkaProducer(WatchConfig config) {
     Properties props = new Properties();
     props.put("bootstrap.servers", config.kafka);
     props.put("transactional.id", config.transactionalId);
 
-    return new KafkaProducer<String, byte[]>(
-        props, new StringSerializer(), new ByteArraySerializer());
+    return new KafkaProducer<String, ZkEvent>(
+        props, new StringSerializer(), new ZkEventSerializer());
   }
 }

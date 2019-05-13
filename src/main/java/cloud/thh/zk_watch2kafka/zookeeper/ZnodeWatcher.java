@@ -20,7 +20,7 @@ package cloud.thh.zk_watch2kafka.zookeeper;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 
-import cloud.thh.zk_watch2kafka.WatchHandler;
+import cloud.thh.zk_watch2kafka.watch_handlers.WatchHandler;
 
 public class ZnodeWatcher implements Watcher {
   private WatchHandler handler;
@@ -29,8 +29,16 @@ public class ZnodeWatcher implements Watcher {
     this.handler = handler;
   }
 
+  public ZnodeWatcher() {
+    this(null);
+  }
+
   @Override
   public void process(WatchedEvent event) {
     handler.handle(event);
+  }
+
+  public void setHandler(WatchHandler handler) {
+    this.handler = handler;
   }
 }

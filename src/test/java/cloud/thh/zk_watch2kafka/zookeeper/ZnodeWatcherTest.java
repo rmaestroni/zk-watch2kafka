@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
 import org.apache.zookeeper.WatchedEvent;
 import org.junit.Test;
 
-import cloud.thh.zk_watch2kafka.WatchHandler;
+import cloud.thh.zk_watch2kafka.watch_handlers.WatchHandler;
 
 public class ZnodeWatcherTest {
   @Test

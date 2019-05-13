@@ -33,11 +33,13 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.KafkaException;
 import org.junit.Test;
 
+import cloud.thh.zk_watch2kafka.zookeeper.ZkEvent;
+
 public class NonTransactionalProducerTest {
   @Test
   public void closeClosesTheProducer() throws IOException {
     @SuppressWarnings("unchecked")
-    KafkaProducer<String, byte[]> kafkaProd = mock(KafkaProducer.class);
+    KafkaProducer<String, ZkEvent> kafkaProd = mock(KafkaProducer.class);
 
     Producer producer = new NonTransactionalProducer(null, kafkaProd);
     producer.close();
@@ -48,7 +50,7 @@ public class NonTransactionalProducerTest {
   @Test
   public void produceSuccessfully() throws Exception {
     @SuppressWarnings("unchecked")
-    KafkaProducer<String, byte[]> kafkaProd = mock(KafkaProducer.class);
+    KafkaProducer<String, ZkEvent> kafkaProd = mock(KafkaProducer.class);
     @SuppressWarnings("unchecked")
     Future<RecordMetadata> result = mock(Future.class);
 
@@ -67,7 +69,7 @@ public class NonTransactionalProducerTest {
   @Test
   public void produceWrapsKafkaExceptionOnFailure() throws Exception {
     @SuppressWarnings("unchecked")
-    KafkaProducer<String, byte[]> kafkaProd = mock(KafkaProducer.class);
+    KafkaProducer<String, ZkEvent> kafkaProd = mock(KafkaProducer.class);
     @SuppressWarnings("unchecked")
     Future<RecordMetadata> result = mock(Future.class);
 
