@@ -7,18 +7,29 @@
       "items": {
         "type": "object",
         "required": [
-          "zookeeper", "znode",
-          "kafka", "target_topic", "transactional_id", "enable_idempotence",
-          "max_transaction_retries"
+          "zookeeper",
+          "znode",
+          "kafka",
+          "target_topic",
+          "transactional_id",
+          "max_transaction_retries",
+          "enable_idempotence",
+          "retries",
+          "acks"
         ],
         "properties": {
           "zookeeper": { "type": "string" },
           "znode": { "type": "string" },
+
           "kafka": { "type": "string" },
           "target_topic": { "type": "string" },
+
           "transactional_id": { "oneOf": [{ "type": "string" }, { "type": "null" }] },
+          "max_transaction_retries": { "type": "integer" },
+
           "enable_idempotence": { "type": "boolean" },
-          "max_transaction_retries": { "type": "integer" }
+          "retries": { "type": "integer" },
+          "acks": { "type": "string" }
         },
         "additionalProperties": false
       }
