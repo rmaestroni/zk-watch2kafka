@@ -9,6 +9,7 @@
         "required": [
           "zookeeper",
           "znode",
+          "operation",
           "kafka",
           "target_topic",
           "transactional_id",
@@ -20,6 +21,7 @@
         "properties": {
           "zookeeper": { "type": "string" },
           "znode": { "type": "string" },
+          "operation": { "enum": ["GET_DATA", "GET_CHILDREN"] },
 
           "kafka": { "type": "string" },
           "target_topic": { "type": "string" },

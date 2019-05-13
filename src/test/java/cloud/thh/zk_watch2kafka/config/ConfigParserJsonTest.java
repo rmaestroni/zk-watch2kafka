@@ -48,6 +48,7 @@ public class ConfigParserJsonTest {
 
     assertEquals("localhost:2181", conf.zookeeper);
     assertEquals("xyz", conf.znode);
+    assertEquals(WatchConfig.Operation.GET_DATA, conf.operation);
 
     assertEquals("localhost:9092", conf.kafka);
     assertEquals("zookeeper-watch-events", conf.targetTopic);

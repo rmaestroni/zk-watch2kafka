@@ -15,22 +15,20 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cloud.thh.zk_watch2kafka.config;
+package cloud.thh.zk_watch2kafka.zookeeper;
 
-public class WatchConfig {
-  public enum Operation { GET_DATA, GET_CHILDREN }
+import java.util.List;
 
-  public String zookeeper;
-  public String znode;
-  public Operation operation;
+import org.apache.zookeeper.data.Stat;
 
-  public String kafka;
-  public String targetTopic;
+public abstract class ZkEvent {
+  public static ZkEvent buildGetChildrenEvent(List<String> children) {
+    // TODO
+    return null;
+  }
 
-  public String transactionalId;
-  public int maxTransactionRetries;
-
-  public String acks;
-  public boolean enableIdempotence;
-  public int retries;
+  public static ZkEvent buildGetDataEvent(byte[] data, Stat stat) {
+    // TODO
+    return null;
+  }
 }

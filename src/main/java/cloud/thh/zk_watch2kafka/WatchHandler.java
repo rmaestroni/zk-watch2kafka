@@ -17,35 +17,59 @@
 
 package cloud.thh.zk_watch2kafka;
 
+import java.io.Closeable;
 import java.io.IOException;
 
+import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.ZooKeeper;
 
 import cloud.thh.zk_watch2kafka.config.WatchConfig;
+import cloud.thh.zk_watch2kafka.kafka.Producer;
+import cloud.thh.zk_watch2kafka.zookeeper.UnrecoverableZkException;
 import cloud.thh.zk_watch2kafka.zookeeper.ZnodeWatcher;
 
-public class WatchHandler {
+public class WatchHandler implements Closeable {
   private WatchConfig config;
   private ZooKeeper zkClient;
+  private Producer producer;
 
-  public WatchHandler(WatchConfig config) {
+  public WatchHandler(WatchConfig config) throws IOException {
     this.config = config;
     this.zkClient = buildZkClient();
+    this.producer = Producer.buildProducer(config);
+  }
+
+  @Override
+  public void close() throws IOException {
+    try {
+      zkClient.close();
+    } catch (InterruptedException e) {
+      throw new IOException(e);
+    }
+    producer.close();
   }
 
   public void handle(WatchedEvent event) {
     // TODO
   }
 
-  private ZooKeeper buildZkClient() {
+  /**
+   * Starts watching the specified node and sends the corresponding events to
+   * Kafka.
+   */
+  public void watch() throws UnrecoverableZkException {
     try {
-      return new ZooKeeper(
-          config.zookeeper,
-          60000, // TODO: provide timeout through configuration
-          new ZnodeWatcher(this));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+      zkClient.getChildren(config.znode, true);
+    } catch (KeeperException | InterruptedException e) {
+      throw new UnrecoverableZkException(e);
     }
+  }
+
+  private ZooKeeper buildZkClient() throws IOException {
+    return new ZooKeeper(
+        config.zookeeper,
+        60000, // TODO: provide timeout through configuration
+        new ZnodeWatcher(this));
   }
 }

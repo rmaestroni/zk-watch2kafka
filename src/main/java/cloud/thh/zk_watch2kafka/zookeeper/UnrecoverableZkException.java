@@ -15,22 +15,12 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cloud.thh.zk_watch2kafka.config;
+package cloud.thh.zk_watch2kafka.zookeeper;
 
-public class WatchConfig {
-  public enum Operation { GET_DATA, GET_CHILDREN }
+public class UnrecoverableZkException extends Exception {
+  private static final long serialVersionUID = 3675463669918722995L;
 
-  public String zookeeper;
-  public String znode;
-  public Operation operation;
-
-  public String kafka;
-  public String targetTopic;
-
-  public String transactionalId;
-  public int maxTransactionRetries;
-
-  public String acks;
-  public boolean enableIdempotence;
-  public int retries;
+  public UnrecoverableZkException(Exception e) {
+    super(e);
+  }
 }

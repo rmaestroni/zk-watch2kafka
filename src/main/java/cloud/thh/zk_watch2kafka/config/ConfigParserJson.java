@@ -51,6 +51,7 @@ public class ConfigParserJson {
         conf.zookeeper = jsonNode.path("zookeeper").asText();
         conf.kafka = jsonNode.path("kafka").asText();
         conf.znode = jsonNode.path("znode").asText();
+        conf.operation = WatchConfig.Operation.valueOf(jsonNode.path("operation").asText());
         conf.targetTopic = jsonNode.path("target_topic").asText();
         conf.transactionalId = jsonNode.path("transactional_id").asText();
         conf.enableIdempotence = jsonNode.path("enable_idempotence").asBoolean();
