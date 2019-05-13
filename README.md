@@ -10,6 +10,7 @@ Sample configuration
     {
       "zookeeper": "localhost:2181",
       "znode": "foo-bar",
+      "operation": "GET_DATA",
 
       "kafka": "localhost:9092",
       "target_topic": "zookeeper-watch-events",
@@ -24,6 +25,7 @@ Sample configuration
     {
       "zookeeper": "localhost:2181",
       "znode": "bar-baz",
+      "operation": "GET_CHILDREN",
 
       "kafka": "localhost:9092",
       "target_topic": "zookeeper-watch-events",
@@ -43,6 +45,7 @@ Every item in `watches` is an object consisting of
 
   * `zookeeper` - Zookeeper connection string;
   * `znode` - Znode to watch;
+  * `operation` - Either `GET_DATA` or `GET_CHILDREN`;
   * `kafka` - Kafka brokers list, comma separated;
   * `target_topic` - The topic name to write to;
   * `transactional_id` - When present it uses a transactional Kafka producer,
