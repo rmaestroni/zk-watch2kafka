@@ -18,12 +18,19 @@
 package cloud.thh.zk_watch2kafka.kafka;
 
 import java.io.Closeable;
+import java.io.IOException;
 
+import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.KafkaException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cloud.thh.zk_watch2kafka.config.WatchConfig;
 
 public abstract class Producer implements Closeable {
+  private static final Logger LOGGER = LoggerFactory.getLogger(Producer.class);
+
   private WatchConfig config;
 
   public static Producer buildProducer(WatchConfig config) {
@@ -36,6 +43,16 @@ public abstract class Producer implements Closeable {
 
   protected Producer(WatchConfig config) {
     this.config = config;
+  }
+
+  @Override
+  public void close() throws IOException {
+    try {
+      LOGGER.debug("Closing producer");
+      getKafkaProducer().close();
+    } catch (KafkaException e) {
+      throw new IOException(e);
+    }
   }
 
   public void produce(String key, byte[] value) throws UnrecoverableKafkaException {
@@ -51,4 +68,6 @@ public abstract class Producer implements Closeable {
   protected WatchConfig getConfig() {
     return config;
   }
+
+  protected abstract KafkaProducer<?, ?> getKafkaProducer();
 }

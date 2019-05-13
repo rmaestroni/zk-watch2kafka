@@ -17,7 +17,6 @@
 
 package cloud.thh.zk_watch2kafka.kafka;
 
-import java.io.IOException;
 import java.util.Properties;
 
 import org.apache.kafka.clients.producer.Callback;
@@ -36,7 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import cloud.thh.zk_watch2kafka.config.WatchConfig;
 
-public class TransactionalProducer extends Producer {
+class TransactionalProducer extends Producer {
   private static final Logger LOGGER = LoggerFactory.getLogger(TransactionalProducer.class);
 
   private KafkaProducer<String, byte[]> producer;
@@ -49,16 +48,6 @@ public class TransactionalProducer extends Producer {
   TransactionalProducer(WatchConfig config, KafkaProducer<String, byte[]> kafka) {
     super(config);
     this.producer = kafka;
-  }
-
-  @Override
-  public void close() throws IOException {
-    try {
-      LOGGER.debug("Closing producer");
-      producer.close();
-    } catch (KafkaException e) {
-      throw new IOException(e);
-    }
   }
 
   @Override
@@ -99,6 +88,11 @@ public class TransactionalProducer extends Producer {
         }
       }
     }
+  }
+
+  @Override
+  protected KafkaProducer<?, ?> getKafkaProducer() {
+    return producer;
   }
 
   private Callback buildLoggingCallback(ProducerRecord<String, byte[]> record) {

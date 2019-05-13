@@ -54,6 +54,7 @@ Every item in `watches` is an object consisting of
      failing. It's used only when `transactional_id` is present and ignored
      otherwise;
   * `enable_idempotence` - Whether to use an idempotent producer or not
-    (non-transactional only);
-  * `acks` - Producer required acks (non-transactional only);
-  * `retries` - Producer retries (non-transactional only);
+    (non-transactional only), when `true` the other options `acks` and `retries`
+    are ignored;
+  * `acks` - Producer required acks (non-transactional only with `enable_idempotence=false`);
+  * `retries` - Producer retries (non-transactional only with `enable_idempotence=false`);

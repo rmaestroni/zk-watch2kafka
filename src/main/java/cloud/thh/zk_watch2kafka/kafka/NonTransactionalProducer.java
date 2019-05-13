@@ -17,7 +17,6 @@
 
 package cloud.thh.zk_watch2kafka.kafka;
 
-import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
@@ -32,7 +31,7 @@ import org.slf4j.LoggerFactory;
 
 import cloud.thh.zk_watch2kafka.config.WatchConfig;
 
-public class NonTransactionalProducer extends Producer {
+class NonTransactionalProducer extends Producer {
   private static final Logger LOGGER = LoggerFactory.getLogger(NonTransactionalProducer.class);
 
   private KafkaProducer<String, byte[]> producer;
@@ -47,11 +46,6 @@ public class NonTransactionalProducer extends Producer {
   }
 
   @Override
-  public void close() throws IOException {
-    producer.close();
-  }
-
-  @Override
   void produce(ProducerRecord<String, byte[]> record) throws UnrecoverableKafkaException {
     try {
       logRecord(record);
@@ -62,6 +56,11 @@ public class NonTransactionalProducer extends Producer {
       LOGGER.error("Got unrecoverable error, re-throwing", e);
       throw new UnrecoverableKafkaException(e);
     }
+  }
+
+  @Override
+  protected KafkaProducer<?, ?> getKafkaProducer() {
+    return producer;
   }
 
   private void logRecordSucceeded(ProducerRecord<String, byte[]> record, RecordMetadata metadata) {
@@ -91,6 +90,7 @@ public class NonTransactionalProducer extends Producer {
     if (config.enableIdempotence) {
       props.put("enable.idempotence", true);
     } else {
+      props.put("enable.idempotence", false);
       props.put("retries", config.retries);
       props.put("acks", config.acks);
     }
