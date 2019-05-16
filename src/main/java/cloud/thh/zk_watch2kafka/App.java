@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,11 +43,13 @@ public class App {
       handlers.add(WatchHandler.build(config));
     }
 
+    CountDownLatch latch = new CountDownLatch(1);
     // attach shutdown handler to catch TERM
     Runtime.getRuntime().addShutdownHook(
         new Thread("shutdown-hook") {
           @Override
           public void run() {
+            LOGGER.info("Got shutdown signal, terminating handlers");
             for (WatchHandler handler: handlers) {
               try {
                 handler.close();
@@ -54,6 +57,8 @@ public class App {
                 throw new RuntimeException(e);
               }
             }
+            LOGGER.info("shutdown completed");
+            latch.countDown();
           }
         });
 
@@ -61,6 +66,7 @@ public class App {
     for (WatchHandler handler: handlers) {
       handler.handle(null);
     }
+    latch.await();
   }
 
   private static List<WatchConfig> parseConfig(String[] args) throws Exception {
