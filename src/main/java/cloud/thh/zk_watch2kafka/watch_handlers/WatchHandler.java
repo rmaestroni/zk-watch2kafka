@@ -86,7 +86,7 @@ public abstract class WatchHandler implements Closeable {
    * Starts watching the specified node and sends the corresponding events to
    * Kafka.
    */
-  public abstract ZkEvent watch() throws UnrecoverableZkException;
+  protected abstract ZkEvent watch() throws UnrecoverableZkException;
 
   private static ZooKeeper buildZkClient(
       WatchConfig config,
