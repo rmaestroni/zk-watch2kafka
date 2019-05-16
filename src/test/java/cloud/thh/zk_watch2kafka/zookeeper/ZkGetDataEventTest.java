@@ -17,6 +17,7 @@
 
 package cloud.thh.zk_watch2kafka.zookeeper;
 
+import static org.junit.Assert.assertFalse;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -39,5 +40,11 @@ public class ZkGetDataEventTest {
 
     verify(serializer, times(1)).setZnodeData(eq(data));
     verify(serializer, times(1)).setZnodeStat(eq(stat));
+  }
+
+  @Test
+  public void isEventNullReturnsFalse() {
+    ZkEvent event = new ZkGetDataEvent(null, null);
+    assertFalse(event.isEventNull());
   }
 }

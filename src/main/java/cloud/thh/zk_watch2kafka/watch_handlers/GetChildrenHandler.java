@@ -38,6 +38,8 @@ class GetChildrenHandler extends WatchHandler {
     try {
       List<String> children = zkClient.getChildren(config.znode, true);
       return ZkEvent.buildGetChildrenEvent(children);
+    } catch (KeeperException.NoNodeException e) {
+      return ZkEvent.buildNoNodeEvent();
     } catch (KeeperException | InterruptedException e) {
       throw new UnrecoverableZkException(e);
     }

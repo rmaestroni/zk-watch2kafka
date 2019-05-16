@@ -28,6 +28,9 @@ public abstract class ZkEventSerializer implements Serializer<ZkEvent> {
   @Override
   public byte[] serialize(String topic, ZkEvent zkEvent) {
     reset();
+
+    if (zkEvent.isEventNull()) { return null; }
+
     zkEvent.initKafkaSerializer(this);
     return serialize();
   }

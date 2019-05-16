@@ -38,6 +38,8 @@ class GetDataHandler extends WatchHandler {
     try {
       byte[] data = zkClient.getData(config.znode, true, stat);
       return ZkEvent.buildGetDataEvent(data, stat);
+    } catch (KeeperException.NoNodeException e) {
+      return ZkEvent.buildNoNodeEvent();
     } catch (KeeperException | InterruptedException e) {
       throw new UnrecoverableZkException(e);
     }

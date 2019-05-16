@@ -17,6 +17,7 @@
 
 package cloud.thh.zk_watch2kafka.kafka;
 
+import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -40,5 +41,22 @@ public class ZkEventSerializerTest {
     verify(serializer, times(1)).reset();
     verify(event, times(1)).initKafkaSerializer(eq(serializer));
     verify(serializer, times(1)).serialize();
+  }
+
+  @Test
+  public void serializeWhenNoZnode() {
+    ZkEventSerializer serializer = mock(ZkEventSerializer.class);
+    ZkEvent event = mock(ZkEvent.class);
+    when(event.isEventNull()).thenReturn(true);
+    when(serializer.serialize(any(), eq(event))).thenCallRealMethod();
+
+    byte[] data = serializer.serialize(null, event);
+
+    assertNull(data);
+
+    verify(event, times(1)).isEventNull();
+    verify(serializer, times(1)).reset();
+    verify(event, times(0)).initKafkaSerializer(eq(serializer));
+    verify(serializer, times(0)).serialize();
   }
 }

@@ -17,26 +17,12 @@
 
 package cloud.thh.zk_watch2kafka.zookeeper;
 
-import java.util.List;
-
-import org.apache.zookeeper.data.Stat;
-
 import cloud.thh.zk_watch2kafka.kafka.ZkEventSerializer;
 
-public abstract class ZkEvent {
-  public static ZkEvent buildGetChildrenEvent(List<String> children) {
-    return new ZkGetChildrenEvent(children);
-  }
+class ZkNoNodeEvent extends ZkEvent {
+  @Override
+  public void initKafkaSerializer(ZkEventSerializer serializer) {}
 
-  public static ZkEvent buildGetDataEvent(byte[] data, Stat stat) {
-    return new ZkGetDataEvent(data, stat);
-  }
-
-  public static ZkEvent buildNoNodeEvent() {
-    return new ZkNoNodeEvent();
-  }
-
-  public abstract void initKafkaSerializer(ZkEventSerializer serializer);
-
-  public boolean isEventNull() { return false; }
+  @Override
+  public boolean isEventNull() { return true; }
 }

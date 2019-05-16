@@ -17,6 +17,7 @@
 
 package cloud.thh.zk_watch2kafka.watch_handlers;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -29,6 +30,7 @@ import org.junit.Test;
 
 import cloud.thh.zk_watch2kafka.config.WatchConfig;
 import cloud.thh.zk_watch2kafka.zookeeper.UnrecoverableZkException;
+import cloud.thh.zk_watch2kafka.zookeeper.ZkEvent;
 
 public class GetChildrenHandlerTest {
   @Test
@@ -54,5 +56,22 @@ public class GetChildrenHandlerTest {
     @SuppressWarnings("resource")
     GetChildrenHandler handler = new GetChildrenHandler(config, zk, null);
     handler.watch();
+  }
+
+  @Test
+  public void watchWhenNoNodeReturnsAppropriateEvent() throws Exception {
+    WatchConfig config = new WatchConfig();
+    config.znode = "some-znode";
+    ZooKeeper zk = mock(ZooKeeper.class);
+    when(zk.getChildren(eq("some-znode"), eq(true))).thenThrow(
+        new KeeperException.NoNodeException());
+
+    @SuppressWarnings("resource")
+    GetChildrenHandler handler = new GetChildrenHandler(config, zk, null);
+    ZkEvent event = handler.watch();
+
+    assertEquals("ZkNoNodeEvent", event.getClass().getSimpleName());
+
+    verify(zk, times(1)).getChildren("some-znode", true);
   }
 }
