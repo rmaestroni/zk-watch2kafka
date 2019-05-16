@@ -58,6 +58,7 @@ public class ConfigParserJson {
         conf.maxTransactionRetries = jsonNode.path("max_transaction_retries").asInt();
         conf.acks = jsonNode.path("acks").asText();
         conf.retries = jsonNode.path("retries").asInt();
+        conf.serializer = jsonNode.path("serializer").asText();
 
         return conf;
       })

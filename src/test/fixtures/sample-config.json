@@ -13,7 +13,8 @@
 
       "enable_idempotence": true,
       "acks": "",
-      "retries": -1
+      "retries": -1,
+      "serializer": "cloud.thh.zk_watch2kafka.kafka.serializers.AvroSerializer"
     }
   ]
 }

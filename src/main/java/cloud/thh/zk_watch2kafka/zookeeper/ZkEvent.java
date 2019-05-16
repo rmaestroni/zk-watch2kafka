@@ -21,6 +21,8 @@ import java.util.List;
 
 import org.apache.zookeeper.data.Stat;
 
+import cloud.thh.zk_watch2kafka.kafka.ZkEventSerializer;
+
 public abstract class ZkEvent {
   public static ZkEvent buildGetChildrenEvent(List<String> children) {
     // TODO
@@ -31,4 +33,6 @@ public abstract class ZkEvent {
     // TODO
     return null;
   }
+
+  public abstract void initKafkaSerializer(ZkEventSerializer serializer);
 }

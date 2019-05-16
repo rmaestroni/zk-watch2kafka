@@ -33,4 +33,6 @@ public class WatchConfig {
   public String acks;
   public boolean enableIdempotence;
   public int retries;
+
+  public String serializer;
 }

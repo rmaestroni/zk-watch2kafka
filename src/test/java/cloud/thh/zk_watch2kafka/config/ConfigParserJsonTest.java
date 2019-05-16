@@ -58,5 +58,8 @@ public class ConfigParserJsonTest {
 
     assertEquals("", conf.acks);
     assertEquals(-1, conf.retries);
+
+    assertEquals("cloud.thh.zk_watch2kafka.kafka.serializers.AvroSerializer",
+        conf.serializer);
   }
 }

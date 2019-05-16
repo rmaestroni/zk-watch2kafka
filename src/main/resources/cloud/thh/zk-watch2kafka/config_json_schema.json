@@ -16,7 +16,8 @@
           "max_transaction_retries",
           "enable_idempotence",
           "retries",
-          "acks"
+          "acks",
+          "serializer"
         ],
         "properties": {
           "zookeeper": { "type": "string" },
@@ -31,7 +32,9 @@
 
           "enable_idempotence": { "type": "boolean" },
           "retries": { "type": "integer" },
-          "acks": { "type": "string" }
+          "acks": { "type": "string" },
+
+          "serializer": { "type": "string" }
         },
         "additionalProperties": false
       }

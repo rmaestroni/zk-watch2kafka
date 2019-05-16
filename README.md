@@ -20,7 +20,9 @@ Sample configuration
 
       "enable_idempotence": true,
       "acks": "",
-      "retries": -1
+      "retries": -1,
+
+      "serializer": "cloud.thh.zk_watch2kafka.kafka.serializers.AvroSerializer"
     },
     {
       "zookeeper": "localhost:2181",
@@ -35,7 +37,9 @@ Sample configuration
 
       "enable_idempotence": true,
       "acks": "all",
-      "retries": 10
+      "retries": 10,
+
+      "serializer": "cloud.thh.zk_watch2kafka.kafka.serializers.BsonSerializer"
     }
   ]
 }
@@ -61,3 +65,6 @@ Every item in `watches` is an object consisting of
     are ignored;
   * `acks` - Producer required acks (non-transactional only with `enable_idempotence=false`);
   * `retries` - Producer retries (non-transactional only with `enable_idempotence=false`);
+  * `serializer` - The serializer qualified class name, defining how to serialize
+    the value to Kafka. The class is expected to extend
+    `cloud.thh.zk_watch2kafka.kafka.ZkEventSerializer`.
