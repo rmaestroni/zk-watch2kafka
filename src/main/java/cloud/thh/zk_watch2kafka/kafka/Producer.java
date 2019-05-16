@@ -42,6 +42,22 @@ public abstract class Producer implements Closeable {
     }
   }
 
+  /**
+   * Loads and instantiates the serializer defined in the configuration for
+   * Kafka message values.
+   * @return a serializer implementing {@link ZkEventSerializer}
+   */
+  static ZkEventSerializer buildSerializer(WatchConfig config) {
+    try {
+      @SuppressWarnings("unchecked")
+      Class<ZkEventSerializer> serClass =
+        (Class<ZkEventSerializer>) Class.forName(config.serializer);
+      return serClass.getDeclaredConstructor().newInstance();
+    } catch (ReflectiveOperationException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   protected Producer(WatchConfig config) {
     this.config = config;
   }

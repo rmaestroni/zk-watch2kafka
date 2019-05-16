@@ -25,13 +25,11 @@ import cloud.thh.zk_watch2kafka.kafka.ZkEventSerializer;
 
 public abstract class ZkEvent {
   public static ZkEvent buildGetChildrenEvent(List<String> children) {
-    // TODO
-    return null;
+    return new ZkGetChildrenEvent(children);
   }
 
   public static ZkEvent buildGetDataEvent(byte[] data, Stat stat) {
-    // TODO
-    return null;
+    return new ZkGetDataEvent(data, stat);
   }
 
   public abstract void initKafkaSerializer(ZkEventSerializer serializer);

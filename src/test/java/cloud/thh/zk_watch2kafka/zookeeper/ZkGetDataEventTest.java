@@ -15,30 +15,29 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cloud.thh.zk_watch2kafka.kafka;
+package cloud.thh.zk_watch2kafka.zookeeper;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+import org.apache.zookeeper.data.Stat;
 import org.junit.Test;
 
-import cloud.thh.zk_watch2kafka.zookeeper.ZkEvent;
+import cloud.thh.zk_watch2kafka.kafka.ZkEventSerializer;
 
-public class ZkEventSerializerTest {
+public class ZkGetDataEventTest {
   @Test
-  public void serialize() {
+  public void initKafkaSerializer() {
+    byte[] data = new byte[] { -1 };
+    Stat stat = mock(Stat.class);
+    ZkEvent event = new ZkGetDataEvent(data, stat);
     ZkEventSerializer serializer = mock(ZkEventSerializer.class);
-    ZkEvent event = mock(ZkEvent.class);
-    when(serializer.serialize(any(), eq(event))).thenCallRealMethod();
 
-    serializer.serialize(null, event);
+    event.initKafkaSerializer(serializer);
 
-    verify(serializer, times(1)).reset();
-    verify(event, times(1)).initKafkaSerializer(eq(serializer));
-    verify(serializer, times(1)).serialize();
+    verify(serializer, times(1)).setZnodeData(eq(data));
+    verify(serializer, times(1)).setZnodeStat(eq(stat));
   }
 }

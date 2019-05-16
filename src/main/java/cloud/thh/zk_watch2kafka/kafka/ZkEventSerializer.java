@@ -18,7 +18,6 @@
 package cloud.thh.zk_watch2kafka.kafka;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.kafka.common.serialization.Serializer;
 import org.apache.zookeeper.data.Stat;
@@ -27,12 +26,10 @@ import cloud.thh.zk_watch2kafka.zookeeper.ZkEvent;
 
 public abstract class ZkEventSerializer implements Serializer<ZkEvent> {
   @Override
-  public void configure(Map<String, ?> configs, boolean isKey) {}
-
-  @Override
   public byte[] serialize(String topic, ZkEvent data) {
-    // TODO Auto-generated method stub
-    return null;
+    reset();
+    data.initKafkaSerializer(this);
+    return serialize();
   }
 
   public abstract void setChildrenList(List<String> znodeChildren);
@@ -40,4 +37,12 @@ public abstract class ZkEventSerializer implements Serializer<ZkEvent> {
   public abstract void setZnodeData(byte[] data);
 
   public abstract void setZnodeStat(Stat stat);
+
+  /**
+   * Called before every record {@link ZkEventSerializer#serialize(String, ZkEvent)}
+   * in order to clear any sticky state coming from previous records.
+   */
+  protected abstract void reset();
+
+  protected abstract byte[] serialize();
 }

@@ -96,6 +96,6 @@ class NonTransactionalProducer extends Producer {
     }
 
     return new KafkaProducer<String, ZkEvent>(
-        props, new StringSerializer(), new ZkEventSerializer());
+        props, new StringSerializer(), buildSerializer(config));
   }
 }

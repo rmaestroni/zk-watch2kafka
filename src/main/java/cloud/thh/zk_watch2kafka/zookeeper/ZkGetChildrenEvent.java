@@ -17,15 +17,19 @@
 
 package cloud.thh.zk_watch2kafka.zookeeper;
 
-import static org.junit.Assert.fail;
+import java.util.List;
 
-import org.junit.Test;
+import cloud.thh.zk_watch2kafka.kafka.ZkEventSerializer;
 
-public class ZkEventTest {
+class ZkGetChildrenEvent extends ZkEvent {
+  private List<String> znodeChildren;
 
-  @Test
-  public void test() {
-    fail("Not yet implemented");
+  ZkGetChildrenEvent(List<String> znodeChildren) {
+    this.znodeChildren = znodeChildren;
   }
 
+  @Override
+  public void initKafkaSerializer(ZkEventSerializer serializer) {
+    serializer.setChildrenList(znodeChildren);
+  }
 }
