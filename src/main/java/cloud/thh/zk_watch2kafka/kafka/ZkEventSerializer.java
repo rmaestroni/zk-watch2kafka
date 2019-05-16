@@ -26,9 +26,9 @@ import cloud.thh.zk_watch2kafka.zookeeper.ZkEvent;
 
 public abstract class ZkEventSerializer implements Serializer<ZkEvent> {
   @Override
-  public byte[] serialize(String topic, ZkEvent data) {
+  public byte[] serialize(String topic, ZkEvent zkEvent) {
     reset();
-    data.initKafkaSerializer(this);
+    zkEvent.initKafkaSerializer(this);
     return serialize();
   }
 
