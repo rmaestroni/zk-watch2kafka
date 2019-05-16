@@ -23,12 +23,19 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cloud.thh.zk_watch2kafka.config.ConfigParserJson;
 import cloud.thh.zk_watch2kafka.config.WatchConfig;
 import cloud.thh.zk_watch2kafka.watch_handlers.WatchHandler;
 
 public class App {
+  private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
+
   public static void main(String[] args) throws Exception {
+    LOGGER.info(LICENSE_NOTICE);
+
     List<WatchConfig> configs = parseConfig(args);
     List<WatchHandler> handlers = new ArrayList<>();
     for (WatchConfig config: configs) {
@@ -66,4 +73,10 @@ public class App {
     String json = Files.readString(Paths.get(args[0]));
     return new ConfigParserJson(json).getWatches();
   }
+
+  private static final String LICENSE_NOTICE =
+      "This is zk-watch2kafka. " +
+      "This program comes with ABSOLUTELY NO WARRANTY; " +
+      "and it is distributed under the terms of GNU GPL " +
+      "version 3 or later.";
 }

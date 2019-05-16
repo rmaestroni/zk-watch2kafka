@@ -11,7 +11,7 @@
       "transactional_id": null,
       "max_transaction_retries": -1,
 
-      "enable_idempotence": true,
+      "enable_idempotence": false,
       "acks": "1",
       "retries": 5,
 
