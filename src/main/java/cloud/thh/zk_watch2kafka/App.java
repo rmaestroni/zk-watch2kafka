@@ -29,7 +29,7 @@ import cloud.thh.zk_watch2kafka.watch_handlers.WatchHandler;
 
 public class App {
   public static void main(String[] args) throws Exception {
-    List<WatchConfig> configs = parseConfig(args[0]);
+    List<WatchConfig> configs = parseConfig(args);
     List<WatchHandler> handlers = new ArrayList<>();
     for (WatchConfig config: configs) {
       handlers.add(WatchHandler.build(config));
@@ -56,14 +56,14 @@ public class App {
     }
   }
 
-  private static List<WatchConfig> parseConfig(String filePath) throws Exception {
-    if (null == filePath) {
+  private static List<WatchConfig> parseConfig(String[] args) throws Exception {
+    if (args.length < 1 || null == args[0]) {
       System.err.println(
-          "Config file path not provided, you have to specify" +
-          "a valid configuration file path as program's first argument");
+          "Config file path not provided, you have to specify " +
+          "a valid configuration file path as program first argument");
       System.exit(1);
     }
-    String json = Files.readString(Paths.get(filePath));
+    String json = Files.readString(Paths.get(args[0]));
     return new ConfigParserJson(json).getWatches();
   }
 }

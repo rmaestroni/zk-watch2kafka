@@ -48,17 +48,17 @@ public class ConfigParserJson {
       .stream(iterable.spliterator(), false)
       .map(jsonNode -> {
         WatchConfig conf = new WatchConfig();
-        conf.zookeeper = jsonNode.path("zookeeper").asText();
-        conf.kafka = jsonNode.path("kafka").asText();
-        conf.znode = jsonNode.path("znode").asText();
-        conf.operation = WatchConfig.Operation.valueOf(jsonNode.path("operation").asText());
-        conf.targetTopic = jsonNode.path("target_topic").asText();
-        conf.transactionalId = jsonNode.path("transactional_id").asText();
+        conf.zookeeper = jsonNode.path("zookeeper").asText(null);
+        conf.kafka = jsonNode.path("kafka").asText(null);
+        conf.znode = jsonNode.path("znode").asText(null);
+        conf.operation = WatchConfig.Operation.valueOf(jsonNode.path("operation").asText(null));
+        conf.targetTopic = jsonNode.path("target_topic").asText(null);
+        conf.transactionalId = jsonNode.path("transactional_id").asText(null);
         conf.enableIdempotence = jsonNode.path("enable_idempotence").asBoolean();
         conf.maxTransactionRetries = jsonNode.path("max_transaction_retries").asInt();
         conf.acks = jsonNode.path("acks").asText();
         conf.retries = jsonNode.path("retries").asInt();
-        conf.serializer = jsonNode.path("serializer").asText();
+        conf.serializer = jsonNode.path("serializer").asText(null);
 
         return conf;
       })

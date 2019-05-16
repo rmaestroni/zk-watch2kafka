@@ -1,0 +1,21 @@
+{
+  "watches": [
+    {
+      "zookeeper": "zookeeper:2181",
+      "znode": "/some-znode",
+      "operation": "GET_DATA",
+
+      "kafka": "kafka:9092",
+      "target_topic": "zookeeper-watch-events",
+
+      "transactional_id": null,
+      "max_transaction_retries": -1,
+
+      "enable_idempotence": true,
+      "acks": "1",
+      "retries": 5,
+
+      "serializer": "cloud.thh.zk_watch2kafka.kafka.serializers.JsonSerializer"
+    }
+  ]
+}

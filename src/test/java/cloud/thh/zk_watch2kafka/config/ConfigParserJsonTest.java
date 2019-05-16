@@ -18,6 +18,7 @@
 package cloud.thh.zk_watch2kafka.config;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class ConfigParserJsonTest {
         TestHelper.readFixture("sample-config.json"));
 
     List<WatchConfig> confs = parser.getWatches();
-    assertEquals(1, confs.size());
+    assertEquals(2, confs.size());
 
     WatchConfig conf = confs.get(0);
 
@@ -61,5 +62,9 @@ public class ConfigParserJsonTest {
 
     assertEquals("cloud.thh.zk_watch2kafka.kafka.serializers.AvroSerializer",
         conf.serializer);
+
+    WatchConfig conf2 = confs.get(1);
+
+    assertNull(conf2.transactionalId);
   }
 }

@@ -20,5 +20,14 @@ RUN cd target && ln -s "zk-watch2kafka-${RELEASE_VERSION}.jar" zk-watch2kafka.ja
 FROM openjdk:11
 
 WORKDIR /app
+
+ENV LOG_LEVEL="INFO" \
+  JAVA_OPTIONS="-Xmx512m"
+
 COPY --from=maven-build /app/target/zk-watch2kafka.jar .
 COPY --from=maven-build /app/target/dependency ./dependency
+COPY entrypoint.sh .
+
+RUN chmod u+x entrypoint.sh
+
+ENTRYPOINT ["./entrypoint.sh"]
