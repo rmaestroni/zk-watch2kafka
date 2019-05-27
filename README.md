@@ -1,5 +1,9 @@
 # zk-watch2kafka
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/a4dbb590796b1cec7f93/maintainability)](https://codeclimate.com/github/rmaestroni/zk-watch2kafka/maintainability)
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/rmaestroni/zk-watch2kafka.svg)
+![Docker Pulls](https://img.shields.io/docker/pulls/rmaestroni/zk-watch2kafka.svg)
+
 Set watches on ZooKeeper znodes and produce them as events to Kafka.
 
 There are two operations you can associate with a watcher
