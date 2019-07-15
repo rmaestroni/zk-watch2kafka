@@ -28,9 +28,10 @@ import com.fasterxml.jackson.core.JsonFactory;
 
 import cloud.thh.zk_watch2kafka.kafka.ZkEventSerializer;
 import cloud.thh.zk_watch2kafka.zookeeper.ZkEvent;
+import de.undercouch.bson4jackson.BsonFactory;
 
-public class JsonSerializerTest extends XsonSerializerSharedTest {
-  private JsonFactory factory = new JsonFactory();
+public class BsonSerializerTest extends XsonSerializerSharedTest {
+  private JsonFactory factory = new BsonFactory();
 
   @Test
   public void serializeMtimeAndCtime() {
@@ -45,13 +46,13 @@ public class JsonSerializerTest extends XsonSerializerSharedTest {
     Map<String, ?> json = parse(serializer.serialize(null, event));
     serializer.close();
 
-    assertEquals((int) stat.getCtime(), json.get("ctime"));
-    assertEquals((int) stat.getMtime(), json.get("mtime"));
+    assertEquals(stat.getCtime(), json.get("ctime"));
+    assertEquals(stat.getMtime(), json.get("mtime"));
   }
 
   @Override
   protected ZkEventSerializer getSerializer() {
-    return new JsonSerializer();
+    return new BsonSerializer();
   }
 
   @Override

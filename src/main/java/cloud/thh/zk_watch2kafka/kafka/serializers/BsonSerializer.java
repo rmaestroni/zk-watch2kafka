@@ -18,10 +18,11 @@
 package cloud.thh.zk_watch2kafka.kafka.serializers;
 
 import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class JsonSerializer extends XsonSerializer {
-  private JsonFactory factory = new ObjectMapper().getFactory();
+import de.undercouch.bson4jackson.BsonFactory;
+
+public class BsonSerializer extends XsonSerializer {
+  private JsonFactory factory = new BsonFactory();
 
   @Override
   protected JsonFactory getJsonFactory() {
