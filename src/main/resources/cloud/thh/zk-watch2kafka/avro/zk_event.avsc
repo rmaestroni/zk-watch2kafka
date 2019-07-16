@@ -1,0 +1,15 @@
+{
+  "namespace": "cloud.thh.zk_watch2kafka.avro",
+  "type": "record",
+  "name": "ZkEvent",
+  "fields": [
+    { "name": "children", "type": ["null", { "type": "array", "items": "string" }] },
+
+    { "name": "zNodeData", "type": ["null", "bytes"] },
+    { "name": "dataLength", "type": ["null", "int"] },
+    { "name": "numChildren", "type": ["null", "int"] },
+    { "name": "ctime", "type": ["null", "long"] },
+    { "name": "mtime", "type": ["null", "long"] },
+    { "name": "version", "type": ["null", "int"] }
+  ]
+}
