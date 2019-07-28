@@ -8,9 +8,6 @@
       "kafka": "kafka:9092",
       "target_topic": "zookeeper-watch-events",
 
-      "transactional_id": null,
-      "max_transaction_retries": -1,
-
       "enable_idempotence": false,
       "acks": "1",
       "retries": 5,
@@ -25,9 +22,6 @@
       "kafka": "kafka:9092",
       "target_topic": "zookeeper-watch-events",
 
-      "transactional_id": null,
-      "max_transaction_retries": -1,
-
       "enable_idempotence": false,
       "acks": "1",
       "retries": 5,
@@ -41,9 +35,6 @@
 
       "kafka": "kafka:9092",
       "target_topic": "zookeeper-watch-events",
-
-      "transactional_id": null,
-      "max_transaction_retries": -1,
 
       "enable_idempotence": true,
       "acks": "1",

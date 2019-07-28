@@ -12,8 +12,6 @@
           "operation",
           "kafka",
           "target_topic",
-          "transactional_id",
-          "max_transaction_retries",
           "enable_idempotence",
           "retries",
           "acks",
@@ -26,9 +24,6 @@
 
           "kafka": { "type": "string" },
           "target_topic": { "type": "string" },
-
-          "transactional_id": { "oneOf": [{ "type": "string" }, { "type": "null" }] },
-          "max_transaction_retries": { "type": "integer" },
 
           "enable_idempotence": { "type": "boolean" },
           "retries": { "type": "integer" },

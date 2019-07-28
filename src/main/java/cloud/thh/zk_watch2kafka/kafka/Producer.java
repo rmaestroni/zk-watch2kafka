@@ -35,11 +35,7 @@ public abstract class Producer implements Closeable {
   private WatchConfig config;
 
   public static Producer buildProducer(WatchConfig config) {
-    if (null != config.transactionalId) {
-      return new TransactionalProducer(config);
-    } else {
-      return new NonTransactionalProducer(config);
-    }
+    return new NonTransactionalProducer(config);
   }
 
   /**

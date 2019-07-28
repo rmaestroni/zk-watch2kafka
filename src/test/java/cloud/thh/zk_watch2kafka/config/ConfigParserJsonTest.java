@@ -53,9 +53,7 @@ public class ConfigParserJsonTest {
 
     assertEquals("localhost:9092", conf.kafka);
     assertEquals("zookeeper-watch-events", conf.targetTopic);
-    assertEquals("some-transactional-id", conf.transactionalId);
     assertEquals(true, conf.enableIdempotence);
-    assertEquals(10, conf.maxTransactionRetries);
 
     assertEquals("", conf.acks);
     assertEquals(-1, conf.retries);
