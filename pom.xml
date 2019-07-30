@@ -4,7 +4,7 @@
 
   <groupId>cloud.thh</groupId>
   <artifactId>zk-watch2kafka</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>zk-watch2kafka</name>

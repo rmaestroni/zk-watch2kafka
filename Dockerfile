@@ -1,7 +1,7 @@
 FROM maven:3.6-jdk-11 AS maven-build
 LABEL maintainer Roberto Maestroni <r.maestroni@gmail.com>
 
-ENV RELEASE_VERSION 0.0.1-SNAPSHOT
+ENV RELEASE_VERSION SNAPSHOT
 
 WORKDIR /app
 
