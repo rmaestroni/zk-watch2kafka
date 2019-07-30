@@ -20,15 +20,13 @@ package cloud.thh.zk_watch2kafka.config;
 public class WatchConfig {
   public enum Operation { GET_DATA, GET_CHILDREN }
 
+  public String zookeeperId;
   public String zookeeper;
   public String znode;
   public Operation operation;
 
   public String kafka;
   public String targetTopic;
-
-  public String transactionalId;
-  public int maxTransactionRetries;
 
   public String acks;
   public boolean enableIdempotence;

@@ -7,6 +7,7 @@
       "items": {
         "type": "object",
         "required": [
+          "zookeeper_id",
           "zookeeper",
           "znode",
           "operation",
@@ -18,6 +19,7 @@
           "serializer"
         ],
         "properties": {
+          "zookeeper_id": { "type": "string" },
           "zookeeper": { "type": "string" },
           "znode": { "type": "string" },
           "operation": { "enum": ["GET_DATA", "GET_CHILDREN"] },

@@ -47,6 +47,7 @@ Sample configuration
 {
   "watches": [
     {
+      "zookeeper_id": "some-local-zk",
       "zookeeper": "localhost:2181",
       "znode": "foo-bar",
       "operation": "GET_DATA",
@@ -61,6 +62,7 @@ Sample configuration
       "serializer": "cloud.thh.zk_watch2kafka.kafka.serializers.AvroSerializer"
     },
     {
+      "zookeeper_id": "some-local-zk",
       "zookeeper": "localhost:2181",
       "znode": "bar-baz",
       "operation": "GET_CHILDREN",
@@ -80,6 +82,9 @@ Sample configuration
 
 Every item in `watches` is an object consisting of
 
+  * `zookeeper_id` - An identifier for the ZooKeeper cluster, this string
+    will be prepended to every produced message key. Its purpose is to make
+    possible to easily recognize which cluster generated the event;
   * `zookeeper` - ZooKeeper connection string;
   * `znode` - Znode to watch;
   * `operation` - Either `GET_DATA` or `GET_CHILDREN`;

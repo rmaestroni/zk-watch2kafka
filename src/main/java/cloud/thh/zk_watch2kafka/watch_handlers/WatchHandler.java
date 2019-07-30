@@ -34,11 +34,13 @@ public abstract class WatchHandler implements Closeable {
   protected WatchConfig config;
   protected ZooKeeper zkClient;
   private Producer producer;
+  private String msgKey;
 
   WatchHandler(WatchConfig config, ZooKeeper zkClient, Producer producer) {
     this.config = config;
     this.zkClient = zkClient;
     this.producer = producer;
+    this.msgKey = config.zookeeperId + ":" + config.znode;
   }
 
   public static WatchHandler build(WatchConfig config) throws IOException {
@@ -76,7 +78,7 @@ public abstract class WatchHandler implements Closeable {
   public void handle(WatchedEvent watchedEvent) {
     try {
       ZkEvent zkEvent = watch();
-      producer.produce(config.znode, zkEvent);
+      producer.produce(msgKey, zkEvent);
     } catch (UnrecoverableZkException | UnrecoverableKafkaException e) {
       throw new RuntimeException(e);
     }

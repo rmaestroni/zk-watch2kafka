@@ -36,9 +36,14 @@ import cloud.thh.zk_watch2kafka.zookeeper.ZkEvent;
 public class WatchHandlerTest {
   @Test
   public void closeClosesZkClientAndProducer() throws Exception {
+    WatchConfig config = new WatchConfig();
+    config.zookeeperId = "zkid";
+    config.znode = "some-znode";
+
     ZooKeeper zk = mock(ZooKeeper.class);
     Producer prod = mock(Producer.class);
-    WatchHandler handler = new WatchHandler(null, zk, prod) {
+
+    WatchHandler handler = new WatchHandler(config, zk, prod) {
       @Override
       public ZkEvent watch() throws UnrecoverableZkException {
         return null;
@@ -54,6 +59,7 @@ public class WatchHandlerTest {
   @Test
   public void handleCallsWatchAndProducer() throws Exception {
     WatchConfig config = new WatchConfig();
+    config.zookeeperId = "zkid";
     config.znode = "some-znode";
     ZooKeeper zk = mock(ZooKeeper.class);
     Producer prod = mock(Producer.class);
@@ -69,7 +75,7 @@ public class WatchHandlerTest {
     handler.handle(null);
 
     verify(handler, times(1)).watch();
-    verify(prod, times(1)).produce("some-znode", zkEvent);
+    verify(prod, times(1)).produce("zkid:some-znode", zkEvent);
   }
 
   @Test

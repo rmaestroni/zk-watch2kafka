@@ -18,7 +18,6 @@
 package cloud.thh.zk_watch2kafka.config;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
@@ -47,6 +46,7 @@ public class ConfigParserJsonTest {
 
     WatchConfig conf = confs.get(0);
 
+    assertEquals("zk1", conf.zookeeperId);
     assertEquals("localhost:2181", conf.zookeeper);
     assertEquals("xyz", conf.znode);
     assertEquals(WatchConfig.Operation.GET_DATA, conf.operation);
@@ -62,7 +62,7 @@ public class ConfigParserJsonTest {
         conf.serializer);
 
     WatchConfig conf2 = confs.get(1);
-
-    assertNull(conf2.transactionalId);
+    assertEquals("zk2", conf2.zookeeperId);
+    assertEquals("all", conf2.acks);
   }
 }

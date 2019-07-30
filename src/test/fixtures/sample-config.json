@@ -1,6 +1,7 @@
 {
   "watches": [
     {
+      "zookeeper_id": "zk1",
       "zookeeper": "localhost:2181",
       "znode": "xyz",
       "operation": "GET_DATA",
@@ -14,6 +15,7 @@
       "serializer": "cloud.thh.zk_watch2kafka.kafka.serializers.AvroSerializer"
     },
     {
+      "zookeeper_id": "zk2",
       "zookeeper": "localhost:2181",
       "znode": "xyz",
       "operation": "GET_DATA",
